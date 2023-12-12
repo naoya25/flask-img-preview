@@ -1,0 +1,44 @@
+{% extends 'base.html' %} {% block content %}
+<h1 class="text-3xl font-bold mb-4">Image Upload and Preview</h1>
+
+<form
+  action="{{ url_for('upload') }}"
+  method="post"
+  enctype="multipart/form-data"
+  id="upload-form"
+  class="max-w-sm mx-auto bg-white p-6 rounded shadow-md"
+>
+  <input
+    type="file"
+    name="file"
+    id="file-input"
+    accept="image/*"
+    onchange="previewImage()"
+    class="mb-4 p-2 border border-gray-300 w-full"
+  /><br />
+  <img
+    id="image-preview"
+    src="#"
+    alt="Image Preview"
+    class="mb-4 w-full"
+    hidden
+  /><br />
+  <button type="submit" class="bg-blue-500 text-white p-2 rounded">
+    Upload
+  </button>
+</form>
+
+<script>
+  const previewImage = () => {
+    const fileInput = document.getElementById("file-input");
+    const imagePreview = document.getElementById("image-preview");
+
+    if (fileInput.files && fileInput.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e) => (imagePreview.src = e.target.result);
+      reader.readAsDataURL(fileInput.files[0]);
+      imagePreview.hidden = false;
+    }
+  };
+</script>
+{% endblock %}
